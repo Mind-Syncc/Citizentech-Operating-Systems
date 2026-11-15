@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Memória Digital</title>
+<style>
+:root{--ind:#4f46e5;--vio:#5b2fd1;--bg:#f4f3ff;--card:#fff;--ink:#1e1b4b;--mut:#55537a;--line:#dedbf7;--red:#b91c1c;--redbg:#fee2e2;--grn:#15803d;--grnbg:#dcfce7;--amb:#92400e;--ambbg:#fef3c7}
+body.hc{--bg:#fff;--ink:#000;--mut:#111;--line:#000;--ind:#2a1fa8;--vio:#1a1270}
+*{box-sizing:border-box}
+html{font-size:18px}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;line-height:1.55}
+body.hc .card,body.hc details,body.hc .sim-msg,body.hc textarea{border:2px solid #000}
+.wrap{max-width:1060px;margin:0 auto;padding:0 1.2rem}
+:focus-visible{outline:3px solid #f59e0b;outline-offset:2px}
+button{font:inherit;cursor:pointer}
+.top{display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:.9rem 0;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:.6rem;font-weight:800;font-size:1.1rem;color:#fff}
+.tools{display:flex;gap:.4rem}
+.tools button{background:rgba(255,255,255,.16);color:#fff;border:1px solid rgba(255,255,255,.5);border-radius:.7rem;min-height:2.6rem;padding:0 .8rem;font-weight:700}
+.tools button[aria-pressed=true]{background:#fff;color:var(--vio)}
+.hero{background:linear-gradient(160deg,var(--vio),var(--ind) 70%);color:#fff;padding-bottom:5.5rem}
+.hero-grid{display:grid;grid-template-columns:1fr 1.05fr;gap:2.2rem;align-items:start;padding-top:1.5rem}
+h1{font-size:2.5rem;line-height:1.1;margin:0 0 1rem;letter-spacing:-.02em}
+.hero p{font-size:1.05rem;opacity:.95;max-width:30rem}
+.hero .note{font-size:.85rem;opacity:.85}
+.card{background:var(--card);color:var(--ink);border-radius:1.4rem;padding:1.4rem;box-shadow:0 18px 40px rgba(30,27,75,.25)}
+.card h2{margin:0 0 .6rem;font-size:1.2rem}
+label{font-weight:700;display:block;margin-bottom:.4rem}
+textarea{width:100%;min-height:8rem;border:1.5px solid var(--line);border-radius:.9rem;padding:.8rem;font:inherit;color:var(--ink);background:#faf9ff;resize:vertical}
+.row{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:.8rem}
+.btn{background:var(--ind);color:#fff;border:0;border-radius:.9rem;min-height:3rem;padding:0 1.2rem;font-weight:700}
+.btn.alt{background:#fff;color:var(--ind);border:1.5px solid var(--ind)}
+.safe{font-size:.8rem;color:var(--mut);margin:.7rem 0 0}
+#res{margin-top:1rem}
+.res{border-radius:1rem;padding:1rem}
+.res.alto{background:var(--redbg);color:var(--red)}
+.res.atencao{background:var(--ambbg);color:var(--amb)}
+.res.ok{background:var(--grnbg);color:var(--grn)}
+.res h3{margin:.2rem 0 .5rem;font-size:1.25rem}
+.res ul{margin:.3rem 0 .8rem;padding-left:1.2rem;color:var(--ink)}
+.res .fazer{background:#fff;color:var(--ink);border-radius:.8rem;padding:.7rem .9rem}
+section{padding:3rem 0}
+h2.t{font-size:1.7rem;margin:0 0 .4rem;letter-spacing:-.01em}
+.sub{color:var(--mut);margin:0 0 1.5rem;max-width:38rem}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+.step{background:var(--card);border:1px solid var(--line);border-radius:1.1rem;padding:1.1rem}
+.step b{display:inline-grid;place-items:center;width:2rem;height:2rem;border-radius:50%;background:var(--ind);color:#fff;margin-bottom:.5rem}
+.step h3{margin:0 0 .3rem;font-size:1.05rem}.step p{margin:0;color:var(--mut)}
+.sim{display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start}
+.bar{height:.5rem;background:var(--line);border-radius:1rem;overflow:hidden;margin:.4rem 0 1rem}
+.bar i{display:block;height:100%;background:var(--ind);width:0;transition:width .3s}
+.sim-msg{background:#f1efff;border:1px solid var(--line);border-radius:1rem;padding:1rem;font-size:1.02rem}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-top:1rem}
+.opts button{min-height:3rem;border-radius:.9rem;font-weight:700;border:2px solid}
+.o-ok{background:var(--grnbg);color:var(--grn);border-color:var(--grn)}
+.o-bad{background:var(--redbg);color:var(--red);border-color:var(--red)}
+#fb{margin-top:1rem;min-height:3.2rem}
+details{background:var(--card);border:1px solid var(--line);border-radius:1rem;padding:.9rem 1.1rem;margin-bottom:.7rem}
+summary{font-weight:700;cursor:pointer}
+details p{margin:.6rem 0 0;color:var(--mut)}
+footer{background:var(--ink);color:#d9d6ff;padding:1.8rem 0;font-size:.85rem}
+@media(max-width:820px){.hero-grid,.sim{grid-template-columns:1fr}.steps{grid-template-columns:1fr}h1{font-size:2rem}}
+@media(prefers-reduced-motion:reduce){.bar i{transition:none}}
+</style>
+</head>
+<body>
+<header class="hero">
+<div class="wrap">
+ <div class="top">
+  <div class="brand"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" aria-hidden="true"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg>Memória Digital</div>
+  <div class="tools" role="group" aria-label="Acessibilidade">
+   <button id="menos" aria-label="Diminuir letras">A−</button>
+   <button id="mais" aria-label="Aumentar letras">A+</button>
+   <button id="hc" aria-pressed="false">Alto contraste</button>
+  </div>
+ </div>
+ <div class="hero-grid">
+  <div>
+   <h1>Na dúvida, pergunte antes de clicar</h1>
+   <p>Cole uma mensagem suspeita e veja, em linguagem simples, se ela tem sinais de golpe e o que fazer. Feito para quem está começando no mundo digital e para as famílias que querem proteger quem amam.</p>
+   <p class="note">A análise acontece neste aparelho. Nada do que você cola é enviado ou guardado.</p>
+  </div>
+  <div class="card" id="verificar">
+   <h2>Nova verificação</h2>
+   <label for="txt">Cole aqui a mensagem que você recebeu</label>
+   <textarea id="txt" placeholder="Ex.: Seu banco avisa que a conta será bloqueada. Clique no link…"></textarea>
+   <div class="row">
+    <button class="btn" id="analisar">Analisar mensagem</button>
+    <button class="btn alt" id="exemplo">Usar um exemplo</button>
+   </div>
+   <p class="safe">Seus dados estão seguros: a análise roda no seu navegador.</p>
+   <div id="res" aria-live="polite"></div>
+  </div>
+ </div>
+</div>
+</header>
+
+<main>
+<section class="wrap" style="padding-top:2.5rem">
+ <h2 class="t">Como funciona</h2>
+ <p class="sub">Três passos, sem cadastro e sem termos difíceis.</p>
+ <div class="steps">
+  <div class="step"><b>1</b><h3>Cole a mensagem</h3><p>Copie o texto que chegou por WhatsApp, SMS ou e-mail.</p></div>
+  <div class="step"><b>2</b><h3>Veja os sinais</h3><p>Mostramos o que chamou atenção: pressa, links estranhos, pedidos de dados.</p></div>
+  <div class="step"><b>3</b><h3>Saiba o que fazer</h3><p>Você recebe um conselho prático, como confirmar pelo canal oficial.</p></div>
+ </div>
+</section>
+
+<section class="wrap" id="simulador">
+ <div class="sim">
+  <div>
+   <h2 class="t">Teste o que você sabe</h2>
+   <p class="sub">Leia a mensagem e decida: é segura ou é um golpe? Errar aqui não custa nada, e ensina muito.</p>
+  </div>
+  <div class="card">
+   <div><b id="prog">Mensagem 1 de 5</b></div>
+   <div class="bar" aria-hidden="true"><i id="barra"></i></div>
+   <div class="sim-msg" id="msg"></div>
+   <div class="opts" id="opts">
+    <button class="o-ok" data-r="0">É segura</button>
+    <button class="o-bad" data-r="1">É um golpe</button>
+   </div>
+   <div id="fb" aria-live="polite"></div>
+  </div>
+ </div>
+</section>
+
+<section class="wrap" id="aprender">
+ <h2 class="t">Aprenda a se proteger</h2>
+ <p class="sub">Dicas curtas para usar sempre.</p>
+ <details><summary>Como reconhecer um golpe por mensagem</summary><p>Golpes quase sempre têm pressa (“hoje”, “em 24h”), prometem algo bom demais ou ameaçam bloquear algo. Respire antes de responder.</p></details>
+ <details><summary>Links: como conferir antes de clicar</summary><p>Desconfie de endereços encurtados e de nomes parecidos com o de um banco. Prefira digitar o site oficial você mesmo.</p></details>
+ <details><summary>Proteja seus dados pessoais</summary><p>Bancos e órgãos públicos não pedem senha, código ou CPF por mensagem. Na dúvida, ligue para o número que está no seu cartão.</p></details>
+ <details><summary>Golpes no WhatsApp: o falso parente</summary><p>Uma mensagem de “novo número” pedindo Pix é um golpe comum. Ligue para a pessoa no número que você já conhece antes de pagar.</p></details>
+</section>
+</main>
+
+<footer>
+ <div class="wrap">Memória Digital é um protótipo acadêmico da Global Solution FIAP 2026.2 (CitizenTech). Esta página é servida por um servidor Debian provisionado com Shell Script. A análise é uma demonstração: indica risco, não é certeza absoluta.</div>
+</footer>
+
+<script>
+var $=function(s){return document.querySelector(s)};
+var REGRAS=[
+ {re:/urgente|imediat|24 ?h|hoje|última chance|bloquead|suspens|expira|agora/i,t:"Urgência artificial",d:"A mensagem pede uma ação imediata.",p:2},
+ {re:/bit\.ly|tinyurl|cutt\.ly|is\.gd|rb\.gy|t\.co\//i,t:"Link encurtado",d:"O endereço esconde o destino real.",p:2},
+ {re:/senha|cpf|cartão|código|token|dados pessoais|confirm\w* seus dados/i,t:"Pedido de dados",d:"Bancos e órgãos públicos não pedem isso por mensagem.",p:2},
+ {re:/ganhou|prêmio|sorteio|promoção imperdível|herança|brinde/i,t:"Promessa de prêmio",d:"Ofertas boas demais costumam ser isca.",p:1},
+ {re:/pix|transfer|depósit|boleto|emprést|consignado/i,t:"Pedido de dinheiro",d:"Confirme por outro canal antes de pagar.",p:1},
+ {re:/novo número|mudei de número|oi (mãe|pai|vó|vô)/i,t:"Possível falso parente",d:"Ligue para a pessoa no número que você já tem.",p:2},
+ {re:/https?:\/\/|www\./i,t:"Contém link",d:"Não clique antes de conferir o site oficial.",p:1}
+];
+function analisar(){
+ var texto=$("#txt").value.trim(),res=$("#res");
+ if(!texto){res.innerHTML='<div class="res atencao">Cole uma mensagem no campo acima para começar.</div>';return}
+ var achados=REGRAS.filter(function(r){return r.re.test(texto)}),pts=achados.reduce(function(a,r){return a+r.p},0);
+ var cls=pts>=3?"alto":pts>=1?"atencao":"ok";
+ var tit=pts>=3?"Possível tentativa de golpe":pts>=1?"Atenção: há sinais de alerta":"Não encontramos sinais de golpe";
+ var lista=achados.length?"<p><b>O que chamou nossa atenção:</b></p><ul>"+achados.map(function(r){return"<li><b>"+r.t+".</b> "+r.d+"</li>"}).join("")+"</ul>":"";
+ var fazer=pts>=1?"Não clique em links nem responda. Acesse o site ou aplicativo oficial, ou ligue para o número que você já conhece.":"Mesmo assim, se a mensagem pedir dinheiro ou dados, confirme por outro canal.";
+ res.innerHTML='<div class="res '+cls+'"><h3>'+tit+"</h3>"+lista+'<div class="fazer"><b>O que fazer?</b> '+fazer+'</div><p class="safe">Indica risco, não é certeza absoluta.</p></div>';
+}
+$("#analisar").onclick=analisar;
+$("#exemplo").onclick=function(){$("#txt").value="Banco Seguro: sua conta será bloqueada em 24h. Clique aqui para regularizar: bit.ly/seguro123";analisar()};
+
+var Q=[
+ ["Banco Seguro: sua conta será bloqueada em 24h. Clique aqui para regularizar: bit.ly/seguro123",1,"Pressa e link encurtado são sinais clássicos. Banco de verdade não pede isso por mensagem."],
+ ["Lembrete: sua vacina da gripe está disponível no posto de saúde do seu bairro até sexta. Leve o cartão de vacinas.",0,"Sem link, sem pedido de dados e sem cobrança. Mesmo assim, confirme no posto se tiver dúvida."],
+ ["Oi mãe, mudei de número. Salva aqui e me faz um Pix urgente, perdi o cartão.",1,"É o golpe do falso parente. Ligue para a pessoa no número antigo antes de qualquer pagamento."],
+ ["Você ganhou um prêmio! Informe seu CPF e senha para receber hoje.",1,"Prêmio que você não pediu e pedido de senha: ninguém legítimo faz isso."],
+ ["Sua consulta está confirmada para amanhã às 10h. Para remarcar, ligue para o telefone da sua clínica.",0,"Não pede dados nem dinheiro e manda você ligar para um número que você já tem."]
+];
+var i=0,acertos=0,respondeu=false;
+function mostrar(){
+ $("#prog").textContent="Mensagem "+(i+1)+" de "+Q.length;
+ $("#barra").style.width=(i/Q.length*100)+"%";
+ $("#msg").textContent=Q[i][0];$("#fb").innerHTML="";respondeu=false;
+}
+function fim(){
+ $("#barra").style.width="100%";$("#prog").textContent="Fim do teste";
+ $("#msg").textContent="Você acertou "+acertos+" de "+Q.length+".";
+ $("#opts").innerHTML='<button class="btn" id="de-novo" style="grid-column:1/-1">Refazer o teste</button>';
+ $("#fb").innerHTML="";
+ $("#de-novo").onclick=function(){location.hash="simulador";i=0;acertos=0;$("#opts").innerHTML='<button class="o-ok" data-r="0">É segura</button><button class="o-bad" data-r="1">É um golpe</button>';ligar();mostrar()};
+}
+function ligar(){
+ [].forEach.call(document.querySelectorAll("#opts button[data-r]"),function(b){
+  b.onclick=function(){
+   if(respondeu)return;respondeu=true;
+   var certo=Number(b.dataset.r)===Q[i][1];if(certo)acertos++;
+   $("#fb").innerHTML='<div class="res '+(certo?"ok":"alto")+'"><b>'+(certo?"Acertou!":"Quase!")+"</b> "+Q[i][2]+'</div><div class="row"><button class="btn" id="prox">'+(i===Q.length-1?"Ver resultado":"Próxima mensagem")+"</button></div>";
+   $("#prox").onclick=function(){i++;if(i>=Q.length)fim();else mostrar()};
+   $("#prox").focus();
+  };
+ });
+}
+ligar();mostrar();
+
+var tam=18;
+function fonte(d){tam=Math.min(26,Math.max(15,tam+d));document.documentElement.style.fontSize=tam+"px"}
+$("#mais").onclick=function(){fonte(2)};$("#menos").onclick=function(){fonte(-2)};
+$("#hc").onclick=function(){var on=document.body.classList.toggle("hc");this.setAttribute("aria-pressed",on)};
+</script>
+</body>
+</html>
