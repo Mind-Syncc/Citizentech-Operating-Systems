@@ -34,7 +34,7 @@ else
 	registrar "Interface $INTERFACE ja configurada"
 fi
 
-if ! ip -4 addr show "$INTERFACE" | grep -q "${IP_FIXO%/*}"; then
+if ! ip -4 addr show "$INTERFACE" | grep -qF "inet $IP_FIXO"; then
 	ifup "$INTERFACE"
 	registrar "Interface $INTERFACE ativada"
 fi
