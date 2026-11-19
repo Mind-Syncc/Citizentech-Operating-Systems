@@ -39,6 +39,7 @@ Segundo o TIC Domicílios 2025 (Cetic.br), 59% das pessoas com 60 anos ou mais u
  
 ```
 .
+├── evidencias           fotos de evidência do projeto funcionando
 ├── config.env           variáveis do projeto (interface, IP, hostname, pacotes, limites)
 ├── functions.sh         funções compartilhadas (logs, checagem de root)
 ├── 01-infra.sh          hostname, IP fixo e teste de DNS
