@@ -9,7 +9,7 @@ Este repositório entrega a infraestrutura Linux que hospeda a página web da **
 | Campo | Resposta |
 |---|---|
 | Nome da CitizenTech | Memória Digital |
-| Cidadão beneficiado | Pessoas idosas que estão começando no mundo digital e as famílias que querem protegê-las |
+| Cidadão beneficiado | Pessoas que estão começando no mundo digital e as famílias que querem protegê-las |
 | Problema, em uma frase | Idosos dependem de terceiros para usar o celular e são alvo frequente de golpes por mensagem, sem uma ferramenta simples para conferir se uma mensagem é segura |
 | Como funciona | A pessoa cola uma mensagem suspeita e recebe, em linguagem simples, os sinais de golpe encontrados e o que fazer. Há também um simulador de golpes e dicas de segurança |
 | O que cada parte faz | **Operating Systems:** infraestrutura Linux automatizada que hospeda a aplicação web *(demais disciplinas: preencher conforme a entrega de cada uma)* |
